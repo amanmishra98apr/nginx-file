@@ -1,0 +1,48 @@
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+
+    keepalive_timeout  65;
+
+upstream service1 {
+ server localhost:8000;
+}
+upstream service2 {
+ server localhost:8001; 
+}
+
+
+
+server {
+  listen 3000;
+  server_name  localhost;
+  
+  location /aman/ {
+    proxy_pass http://service1;
+  }
+
+  location /shu/ {
+    proxy_pass http://service2;
+  }
+  
+}
+
+# map $uri $upstreamName {
+ 
+#   "~^/LeaveManagement/" service1;
+#   "~^/hrms/home/" service2;
+
+# }
+
+# server {
+#   listen 3000;
+#   server_name localhost;
+#   #default_type text/plain;
+#   location / {
+#     proxy_pass http://$upstreamName;
+#   }
+  
+# }
+
+}
